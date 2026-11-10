@@ -1,0 +1,65 @@
+@startuml uml_practica4
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+hide empty members
+
+class Time {
+  - __hours: int
+  - __minutes: int
+  - __seconds: int
+  - __time_format: str
+  + {static} TIME_FORMATS: tuple[str, ...]
+  + {static} time_count: int
+  + hours: int
+  + minutes: int
+  + seconds: int
+  + time_format: str
+  + set_time(hours: int, minutes: int, seconds: int, time_format: str): bool
+  + get_time(): tuple[int, int, int, str]
+  + {static} from_string(time_string: str): Time
+  + {static} is_valid_format(time_format: str): bool
+  + {static} get_time_count(): int
+}
+
+class Ficha {
+  # _nombre: str
+  # _edad: int
+  # _nacio: Time
+  + nombre: str
+  + edad: int
+  + nacio: Time
+  + visualizar(): None
+}
+
+class Empleado {
+  # _categoria: str
+  # _antiguedad: int
+  + categoria: str
+  + antiguedad: int
+  + visualizar(): None
+}
+
+class Cliente {
+  # _dni: str
+  + dni: str
+  + visualizar(): None
+  + <U+005F><U+005F>eq<U+005F><U+005F>(otro: object): bool
+}
+
+class RegistroDiario {
+  - _personas: List[Ficha]
+  + personas: List[Ficha]
+  + agregar_persona(persona: Ficha): None
+  + visualizar_registro(): None
+  + visualizar_empleados(): None
+  + {static} es_empleado(persona: Ficha): bool
+  + <U+005F><U+005F>getitem<U+005F><U+005F>(indice: int): Ficha
+  + <U+005F><U+005F>add<U+005F><U+005F>(otro: RegistroDiario): RegistroDiario
+}
+
+Ficha <|-- Empleado
+Ficha <|-- Cliente
+RegistroDiario o-- "0..*" Ficha : personas
+Ficha --> "1" Time : nacio
+
+@enduml
